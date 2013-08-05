@@ -1,5 +1,7 @@
 FROM ubuntu
 
+MAINTAINER Darron Froese "darron@froese.org"
+
 RUN echo "deb http://archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get -y install dialog net-tools lynx nano wget
@@ -15,5 +17,7 @@ RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
 RUN mkdir /var/www
 RUN echo "<?php phpinfo(); ?>" > /var/www/index.php
 
-RUN service php5-fpm start
-RUN service nginx restart
+#CMD ["service", "php5-fpm", "start"]
+CMD ["service", "nginx", "start"]
+
+EXPOSE 80
