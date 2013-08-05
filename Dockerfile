@@ -14,10 +14,10 @@ RUN apt-get -y install nginx php5-fpm php5-mysql
 
 RUN wget -O /etc/nginx/sites-available/default https://gist.github.com/darron/6159214/raw/30a60885df6f677bfe6f2ff46078629a8913d0bc/gistfile1.txt
 RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN mkdir /var/www
 RUN echo "<?php phpinfo(); ?>" > /var/www/index.php
 
-#CMD ["service", "php5-fpm", "start"]
-CMD ["service", "nginx", "start"]
-
 EXPOSE 80
+
+CMD service php5-fpm start && nginx
