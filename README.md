@@ -26,3 +26,18 @@ vagrant@ubuntu-13:~$ docker ps
 ID                  IMAGE                 COMMAND                CREATED             STATUS              PORTS
 6592bc4c0193        darron/nginx:latest   /bin/sh -c service p   2 seconds ago       Up 1 seconds        49153->80
 ```
+
+To serve another site - you can layer on top of this - here's an example Dockerfile:
+
+```
+FROM darron/nginx
+
+# Build your new site here. 
+RUN echo "Site 123 ABC" > /var/www/index.php
+RUN echo "<?php phpinfo(); ?>" >> /var/www/index.php
+ 
+EXPOSE 80
+ 
+CMD service php5-fpm start && nginx
+```
+
