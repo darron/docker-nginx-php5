@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM darron/chef-omnibus
 
 MAINTAINER Darron Froese "darron@froese.org"
 
