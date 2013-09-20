@@ -4,7 +4,8 @@ MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
 #RUN echo "deb http://archive.ubuntu.com/ubuntu/ raring universe" >> /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -y install nano wget curl software-properties-common
+RUN apt-get -y install whiptail nano mlocate
+RUN apt-get -y install curl wget software-properties-common
 RUN add-apt-repository -y ppa:nginx/stable
 #RUN add-apt-repository -y ppa:ondrej/php5-oldstable
 RUN apt-get update
