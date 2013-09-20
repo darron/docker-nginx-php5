@@ -1,10 +1,10 @@
-FROM darron/chef-omnibus
+FROM base
 
-MAINTAINER Darron Froese "darron@froese.org"
+MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ raring universe" >> /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -y install dialog net-tools lynx nano wget
+RUN apt-get -y install dialog net-tools nano wget curl
 RUN apt-get -y install python-software-properties
 RUN add-apt-repository -y ppa:nginx/stable
 RUN add-apt-repository -y ppa:ondrej/php5-oldstable
