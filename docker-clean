@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo docker rm -v $(sudo docker ps -a -q) | wc -l
+sudo docker rmi $(sudo docker images -a -q)
