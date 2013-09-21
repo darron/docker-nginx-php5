@@ -12,7 +12,8 @@ RUN apt-get update
 
 RUN apt-get -y install nginx php5-fpm php5-mysql php5-imagick php5-mcrypt
 
-CONF="server {
+cat > /etc/nginx/sites-available/default <<EOF
+server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
@@ -36,9 +37,9 @@ CONF="server {
         include fastcgi_params;
     }
 
-}"
+}
+EOF
 
-RUN echo "$CONF" > /etc/nginx/sites-available/default
 #RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
 
