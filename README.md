@@ -15,7 +15,7 @@ cd docker-nginx-php5
 docker build -t <yournamehere>/nginx .
 ```
 
-You can then run the built image: `docker run -d <yournamehere>/nginx`
+You can then run the built image: `docker run -d <yournamehere>/lemp`
 
 You should see a running image if you run docker ps
 
@@ -24,13 +24,13 @@ vagrant@ubuntu-13:~$ docker run -d darron/nginx
 6592bc4c0193
 vagrant@ubuntu-13:~$ docker ps
 ID                  IMAGE                 COMMAND                CREATED             STATUS              PORTS
-6592bc4c0193        darron/nginx:latest   /bin/sh -c service p   2 seconds ago       Up 1 seconds        49153->80
+6592bc4c0193        ishakuta/lemp:latest   /bin/sh -c service p   2 seconds ago       Up 1 seconds        49153->80
 ```
 
 To serve another site - you can layer on top of this - here's an example Dockerfile:
 
 ```
-FROM darron/nginx
+FROM ishakuta/lemp
 
 # Build your new site here. 
 RUN echo "Site 123 ABC" > /var/www/index.php
