@@ -1,4 +1,4 @@
-FROM base
+FROM ubuntu:quantal
 
 MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
@@ -6,7 +6,7 @@ MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
 RUN apt-get -qy update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -qy install dialog nano wget mlocate curl software-properties-common
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qy install nano wget curl mlocate software-properties-common
 RUN add-apt-repository -y ppa:nginx/stable
 RUN apt-get -qy update
 
