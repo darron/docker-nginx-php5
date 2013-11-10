@@ -1,4 +1,4 @@
-FROM ubuntu:quantal
+FROM ubuntu:latest
 
 MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
