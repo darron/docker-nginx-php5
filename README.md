@@ -5,7 +5,7 @@ A Dockerfile to create a Docker image with nginx and php5-fpm
 
 This was created using [this blog post](http://hotcashew.com/2013/07/lemp-stack-in-a-docker-io-container/) and lots of Googling.
 
-It's posted on the Docker INDEX at [ishakuta/lemp](https://index.docker.io/u/ishakuta/lemp/)
+It's posted on the Docker INDEX at [ishakuta/docker-nginx-php5](https://index.docker.io/u/ishakuta/docker-nginx-php5/)
 
 To build:
 
