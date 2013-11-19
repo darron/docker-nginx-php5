@@ -7,6 +7,8 @@ This was created using [this blog post](http://hotcashew.com/2013/07/lemp-stack-
 
 It's posted on the Docker INDEX at [ishakuta/docker-nginx-php5](https://index.docker.io/u/ishakuta/docker-nginx-php5/)
 
+Some size research on docker folders: [docker folders size with this image and stackbrew base images](https://gist.github.com/ishakuta/7542454)
+
 To build:
 
 ```
