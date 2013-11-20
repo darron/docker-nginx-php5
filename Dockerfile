@@ -1,23 +1,30 @@
-FROM darron/chef-omnibus
+FROM ubuntu:quantal
+MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
-MAINTAINER Darron Froese "darron@froese.org"
+# TODO: add gpg key here instead of add-apt-repository (that needs python, etc)
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get -y install dialog net-tools lynx nano wget
-RUN apt-get -y install python-software-properties
-RUN add-apt-repository -y ppa:nginx/stable
-RUN add-apt-repository -y ppa:ondrej/php5-oldstable
-RUN apt-get update
+RUN apt-get -qy update
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qy install nano wget curl software-properties-common
+RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:nginx/stable
+RUN apt-get -qy update
 
-RUN apt-get -y install nginx php5-fpm php5-mysql php-apc php5-imagick php5-imap php5-mcrypt
+# install nginx and php5
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qy install nginx php5-fpm php5-mysql php5-imagick php5-mcrypt php5-curl openssh-server
+RUN wget -O /etc/nginx/sites-available/default https://raw.github.com/ishakuta/docker-nginx-php5/master/default-site
 
-RUN wget -O /etc/nginx/sites-available/default https://gist.github.com/darron/6159214/raw/30a60885df6f677bfe6f2ff46078629a8913d0bc/gistfile1.txt
-RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN mkdir /var/www
-RUN echo "<?php phpinfo(); ?>" > /var/www/index.php
+RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
+
+RUN mkdir /var/www && echo "<?php phpinfo(); ?>" > /var/www/index.php
+
+RUN mkdir /var/run/sshd
+RUN echo "#!/bin/bash" >> /run.sh && \
+    echo "service php5-fpm start" >> /run.sh && \
+    echo "/usr/sbin/sshd" >> /run.sh && \
+    echo "/usr/sbin/nginx" >> /run.sh && chmod +x /run.sh
+
+RUN echo root:root | chpasswd
 
 EXPOSE 80
+ENTRYPOINT ["/run.sh"]
 
-CMD service php5-fpm start && nginx
