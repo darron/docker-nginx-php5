@@ -1,5 +1,4 @@
-#FROM stackbrew/ubuntu:quantal
-FROM stackbrew/ubuntu:saucy
+FROM stackbrew/ubuntu:quantal
 MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
 RUN apt-get -qy update

@@ -1,13 +1,10 @@
 FROM ubuntu:quantal
 MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu/ raring universe" >> /etc/apt/sources.list
-#RUN "deb http://ppa.launchpad.net/nginx/stable/ubuntu quantal main" >> /etc/apt/sources.list
-#RUN "deb-src http://ppa.launchpad.net/nginx/stable/ubuntu quantal main" >> /etc/apt/sources.list
 # TODO: add gpg key here instead of add-apt-repository (that needs python, etc)
 
 RUN apt-get -qy update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -qy install nano wget curl mlocate software-properties-common
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qy install nano wget curl software-properties-common
 RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:nginx/stable
 RUN apt-get -qy update
 
@@ -29,6 +26,5 @@ RUN echo "#!/bin/bash" >> /run.sh && \
 RUN echo root:root | chpasswd
 
 EXPOSE 80
-#CMD ["-c", "/etc/nginx/nginx.conf"]
 ENTRYPOINT ["/run.sh"]
 
