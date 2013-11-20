@@ -1,4 +1,4 @@
-FROM ubuntu:quantal
+FROM stackbrew/ubuntu:quantal
 MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
 # TODO: add gpg key here instead of add-apt-repository (that needs python, etc)
