@@ -1,6 +1,8 @@
 docker-nginx-php5
 =================
 
+DEPRECATED - all new development is taking place on [octohost](https://github.com/octohost/php5-nginx)
+
 A Dockerfile to create a Docker image with nginx and php5-fpm
 
 This was created using [this blog post](http://hotcashew.com/2013/07/lemp-stack-in-a-docker-io-container/) and lots of Googling.
