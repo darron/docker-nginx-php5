@@ -5,7 +5,7 @@ MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
 # update and install tools
 RUN apt-get -qy update && locale-gen en_US.UTF-8 && \
-	DEBIAN_FRONTEND=noninteractive apt-get -qy install && \
+	DEBIAN_FRONTEND=noninteractive apt-get -qy install \
 	nano wget curl software-properties-common openssh-server git
 
 # compose simple start script
