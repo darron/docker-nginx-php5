@@ -6,17 +6,17 @@ MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 # update and install tools
 RUN apt-get -qy update && locale-gen en_US.UTF-8 && \
 	DEBIAN_FRONTEND=noninteractive apt-get -qy install \
-	nano wget curl software-properties-common openssh-server git
-
-# compose simple start script
-RUN mkdir /var/run/sshd && \
-    echo "#!/bin/bash" >> /run.sh && \
-    echo "/usr/sbin/sshd &" >> /run.sh && \
-    chmod +x /run.sh
+	nano wget curl software-properties-common openssh-server \
+	git supervisor cowsay
 
 # generate password and setup user ubuntu with ubuntu password
 RUN echo root:root | chpasswd && \
     useradd ubuntu -s /bin/bash -m -p `perl -e 'print crypt("ubuntu", "salt"),"\n"'` && \
-    echo 'ubuntu	ALL=(ALL:ALL) ALL' >> /etc/sudoers
+    echo 'ubuntu	ALL=(ALL:ALL) ALL' >> /etc/sudoers && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENTRYPOINT ["/run.sh"]
+ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD config/usr/local/bin/run.sh /usr/local/bin/run.sh
+
+EXPOSE 22
+CMD ["/usr/local/bin/run.sh"]
