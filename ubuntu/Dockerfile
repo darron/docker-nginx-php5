@@ -13,7 +13,8 @@ RUN apt-get -qy update && locale-gen en_US.UTF-8 && \
 RUN echo root:root | chpasswd && \
     useradd ubuntu -s /bin/bash -m -p `perl -e 'print crypt("ubuntu", "salt"),"\n"'` && \
     echo 'ubuntu	ALL=(ALL:ALL) ALL' >> /etc/sudoers && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && mkdir /var/run/sshd
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    mkdir -p /var/run/sshd && mkdir -p /var/log/supervisor
 
 ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf && \
 	echo '[program:sshd]' > /usr/local/etc/supervisor.d/sshd.conf && \

@@ -22,9 +22,9 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
     mkdir /var/www && echo "<?php phpinfo(); ?>" > /var/www/index.php
 
 # add daemons
-RUN echo '[program:php5-fpm]
-command=service php5-fpm start' > /usr/local/etc/supervisor.d/php5-fpm.conf && \
-    echo '[program:nginx]
-command=/usr/sbin/nginx' > /usr/local/etc/supervisor.d/nginx.conf
+RUN echo '[program:php5-fpm]' > /usr/local/etc/supervisor.d/php5-fpm.conf && \
+    echo 'command=service php5-fpm start' >> /usr/local/etc/supervisor.d/php5-fpm.conf && \
+    echo '[program:nginx]' > /usr/local/etc/supervisor.d/nginx.conf && \
+    echo 'command=/usr/sbin/nginx' >> /usr/local/etc/supervisor.d/nginx.conf
 
 EXPOSE 80
