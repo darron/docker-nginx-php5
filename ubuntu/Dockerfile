@@ -15,7 +15,9 @@ RUN echo root:root | chpasswd && \
     echo 'ubuntu	ALL=(ALL:ALL) ALL' >> /etc/sudoers && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && mkdir /var/run/sshd
 
-ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf && \
+echo '[program:sshd]
+command=/usr/sbin/sshd -D' > /usr/local/etc/supervisor.d/sshd.conf
 
 EXPOSE 22
 CMD ["/usr/bin/supervisord"]
