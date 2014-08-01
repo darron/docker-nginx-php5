@@ -21,11 +21,10 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
     echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini && \
     mkdir /var/www && echo "<?php phpinfo(); ?>" > /var/www/index.php
 
-# compose simple start script
-RUN echo "#!/bin/bash" >> /run.sh && \
-    echo "/usr/sbin/sshd &" >> /run.sh && \
-    echo "service php5-fpm start &" >> /run.sh && \
-    echo "/usr/sbin/nginx" >> /run.sh
-    chmod +x /run.sh
+# add daemons
+RUN echo '[program:php5-fpm]
+command=service php5-fpm start' > /usr/local/etc/supervisor.d/php5-fpm.conf && \
+    echo '[program:nginx]
+command=/usr/sbin/nginx' > /usr/local/etc/supervisor.d/nginx.conf
 
 EXPOSE 80
