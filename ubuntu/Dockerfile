@@ -16,7 +16,6 @@ RUN echo root:root | chpasswd && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && mkdir /var/run/sshd
 
 ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD config/usr/local/bin/run.sh /usr/local/bin/run.sh
 
 EXPOSE 22
 CMD ["/usr/bin/supervisord"]
