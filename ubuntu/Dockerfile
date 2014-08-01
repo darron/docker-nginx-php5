@@ -7,16 +7,16 @@ MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 RUN apt-get -qy update && locale-gen en_US.UTF-8 && \
 	DEBIAN_FRONTEND=noninteractive apt-get -qy install \
 	nano wget curl software-properties-common openssh-server \
-	git supervisor cowsay
+	git supervisor
 
 # generate password and setup user ubuntu with ubuntu password
 RUN echo root:root | chpasswd && \
     useradd ubuntu -s /bin/bash -m -p `perl -e 'print crypt("ubuntu", "salt"),"\n"'` && \
     echo 'ubuntu	ALL=(ALL:ALL) ALL' >> /etc/sudoers && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && mkdir /var/run/sshd
 
 ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD config/usr/local/bin/run.sh /usr/local/bin/run.sh
 
 EXPOSE 22
-CMD ["/usr/local/bin/run.sh"]
+CMD ["/usr/bin/supervisord"]
