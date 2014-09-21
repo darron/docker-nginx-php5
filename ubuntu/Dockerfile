@@ -20,4 +20,5 @@ RUN echo root:root | chpasswd && \
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 22
+EXPOSE 9001
 CMD ["/usr/bin/supervisord"]
