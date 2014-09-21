@@ -1,23 +1,30 @@
-FROM darron/chef-omnibus
+FROM ishakuta/ubuntu
+MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 
-MAINTAINER Darron Froese "darron@froese.org"
+RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:nginx/stable && \
+	DEBIAN_FRONTEND=noninteractive apt-get -qy update && \
+	DEBIAN_FRONTEND=noninteractive apt-get -qy install nginx \
+	php5-fpm php5-mysql php5-gd php5-intl php5-imagick php5-mcrypt \
+	php5-curl php5-cli php5-xdebug
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get -y install dialog net-tools lynx nano wget
-RUN apt-get -y install python-software-properties
-RUN add-apt-repository -y ppa:nginx/stable
-RUN add-apt-repository -y ppa:ondrej/php5-oldstable
-RUN apt-get update
+ADD default-site /etc/nginx/sites-available/default
 
-RUN apt-get -y install nginx php5-fpm php5-mysql php-apc php5-imagick php5-imap php5-mcrypt
+# install composer and phpunit
+RUN curl -sS https://getcomposer.org/installer | php && \
+	mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer && \
+	composer global require 'phpunit/phpunit=3.7.*' && \
+	echo "export PATH=$PATH:/.composer/vendor/bin/:" >> /root/.profile && \
+    echo "export PATH=$PATH:/.composer/vendor/bin/:" >> /home/ubuntu/.profile
 
-RUN wget -O /etc/nginx/sites-available/default https://gist.github.com/darron/6159214/raw/30a60885df6f677bfe6f2ff46078629a8913d0bc/gistfile1.txt
-RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN mkdir /var/www
-RUN echo "<?php phpinfo(); ?>" > /var/www/index.php
+# configure nginx, fpm and start services
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
+    echo "cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini && \
+    mkdir /var/www && echo "<?php phpinfo(); ?>" > /var/www/index.php
+
+# add daemons
+RUN echo '[program:php5-fpm]' > /usr/local/etc/supervisor.d/php5-fpm.conf && \
+    echo 'command=service php5-fpm start' >> /usr/local/etc/supervisor.d/php5-fpm.conf && \
+    echo '[program:nginx]' > /usr/local/etc/supervisor.d/nginx.conf && \
+    echo 'command=/usr/sbin/nginx' >> /usr/local/etc/supervisor.d/nginx.conf
 
 EXPOSE 80
-
-CMD service php5-fpm start && nginx
