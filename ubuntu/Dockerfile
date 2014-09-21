@@ -4,7 +4,7 @@ MAINTAINER Ivan Shakuta "ishakuta@gmail.com"
 # update and install tools
 RUN apt-get -qy update && \
 	DEBIAN_FRONTEND=noninteractive apt-get -qy --no-install-recommends install apt-utils && \
-	DEBIAN_FRONTEND=noninteractive apt-get -qy --no-install-recommends install && \
+	DEBIAN_FRONTEND=noninteractive apt-get -qy --no-install-recommends install \
 	nano wget curl software-properties-common openssh-server git-core supervisor && \
 	
 	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
